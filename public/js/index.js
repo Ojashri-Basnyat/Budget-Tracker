@@ -75,13 +75,16 @@ function sendTransaction(isAdding) {
   let nameEl = document.querySelector("#t-name");
   let amountEl = document.querySelector("#t-amount");
   let errorEl = document.querySelector(".form .error");
+  let confirmEl = document.querySelector(".form .confirm");
 
   if (nameEl.value === "" || amountEl.value === "") {
     errorEl.textContent = "Missing Information";
+    confirmEl.textContent = "";
     return;
   }
   else {
     errorEl.textContent = "";
+    confirmEl.textContent = "Transaction Saved!";
   }
 
   let transaction = {
@@ -99,7 +102,7 @@ function sendTransaction(isAdding) {
   populateChart();
   populateTable();
   populateTotal();
-
+  
   fetch("/api/transaction", {
     method: "POST",
     body: JSON.stringify(transaction),
@@ -108,7 +111,7 @@ function sendTransaction(isAdding) {
       "Content-Type": "application/json"
     }
   })
-  .then(response => {    
+  .then(response => {  
     return response.json();
   })
   .then(data => {
@@ -118,6 +121,7 @@ function sendTransaction(isAdding) {
     else {
       nameEl.value = "";
       amountEl.value = "";
+      confirmEl.textContent = "Transaction Saved!";
     }
   })
   .catch(err => {
